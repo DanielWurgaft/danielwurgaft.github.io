@@ -12,7 +12,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--fg);
-  font: 300 18px/1.65 "Avenir Next", Avenir, "Nunito Sans", sans-serif;
+  font: 400 18px/1.65 "Avenir Next", Avenir, "Nunito Sans", sans-serif;
 }
 
 main {
@@ -22,7 +22,7 @@ main {
 }
 
 h1, h2 { font-weight: 500; line-height: 1.15; }
-b, strong { font-weight: 500; }
+b, strong { font-weight: 800; }
 h1 { font-size: 2.2rem; margin: 0; }
 h2 { font-size: 1.25rem; margin: 2.5rem 0 0.75rem; }
 
@@ -38,7 +38,10 @@ header { display: flex; gap: 1.5rem; align-items: center; margin-bottom: 2rem; }
   background: var(--soft);
 }
 .tagline { margin: .2rem 0 .5rem; color: var(--muted); }
-.links { margin: 0; display: flex; flex-wrap: wrap; gap: .15rem .9rem; font-size: .95rem; }
+.links { margin: .35rem 0 0; display: flex; flex-wrap: wrap; gap: 1rem; }
+.links a { color: var(--accent); display: inline-flex; transition: color .15s, transform .15s; }
+.links a:hover { color: var(--fg); transform: translateY(-2px); }
+.links svg { width: 21px; height: 21px; }
 
 @media (max-width: 520px) {
   header { flex-direction: column; text-align: center; }
@@ -59,7 +62,7 @@ header { display: flex; gap: 1.5rem; align-items: center; margin-bottom: 2rem; }
 .paper .title:hover { color: var(--accent); }
 .paper span { display: block; font-size: .9rem; line-height: 1.45; margin-top: .2rem; }
 .paper .authors { color: var(--muted); }
-.paper .authors b { color: var(--fg); font-weight: 500; }
+.paper .authors b { color: var(--fg); font-weight: 800; }
 .paper .venue { font-style: italic; }
 .paper .extras { font-size: .85rem; }
 
@@ -80,7 +83,7 @@ header { display: flex; gap: 1.5rem; align-items: center; margin-bottom: 2rem; }
 .all-papers li { margin-bottom: .6rem; color: var(--muted); }
 .all-papers a { color: var(--fg); text-decoration: none; }
 .all-papers a:hover { color: var(--accent); }
-.all-papers b { color: var(--fg); font-weight: 500; }
+.all-papers b { color: var(--fg); font-weight: 800; }
 
 /* game of 24 */
 .game {
