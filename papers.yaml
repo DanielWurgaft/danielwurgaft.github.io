@@ -38,6 +38,9 @@ overrides:
   "2505.23931":
     equal: [0, 1]
     links: {code: "https://github.com/benpry/think-aloud-llms"}
+  "2604.28119":   # Do Sparse Autoencoders Capture Concept Manifolds?
+    venue: COLM
+    year: 2026
   "2605.01148":   # title + venue as on Google Scholar
     title: "Arithmetic in the Wild: Llama uses Standard Addition to Reason About Cyclic Concepts"
     venue: COLM
