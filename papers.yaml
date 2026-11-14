@@ -14,7 +14,8 @@ selected:
   - "2506.17859"   # In-Context Learning Strategies Emerge Rationally
   - "2505.23931"   # Scaling up the think-aloud method
 
-exclude: []
+exclude:
+  - "7106400db820d82770923f5524b6ab0255741cd3"   # Biological Psychiatry conference abstract (639. Distinct Neural Correlates…)
 
 # Per-paper tweaks. Any field can be overridden: title, venue, year, url.
 #   links:  extra links shown after "pdf", e.g. {code: https://github.com/...}
