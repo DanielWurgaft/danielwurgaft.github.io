@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- a little Thomas Bayes -->
+  <circle cx="16" cy="16" r="16" fill="#eee8de"/>
+  <clipPath id="c"><circle cx="16" cy="16" r="16"/></clipPath>
+  <g clip-path="url(#c)">
+    <!-- black clerical robe -->
+    <path d="M3 32 C4 24 9 21.5 16 21.5 C23 21.5 28 24 29 32 Z" fill="#1f1a17"/>
+    <!-- white preaching bands -->
+    <path d="M14.3 21.5 h1.5 l-0.3 6 h-1.5 Z M16.2 21.5 h1.5 l0.3 6 h-1.5 Z" fill="#fbfaf7"/>
+    <!-- neck -->
+    <rect x="14.2" y="18" width="3.6" height="3.8" rx="1" fill="#e9c4a2"/>
+    <!-- hair: swept back, to the ears -->
+    <path d="M10 15.5 C9 9 11.5 5 16 5 C20.5 5 23 9 22 15.5 C21.6 13 21.2 11.5 20.6 10.6 L11.4 10.6 C10.8 11.5 10.4 13 10 15.5 Z" fill="#4a3426"/>
+    <!-- face -->
+    <ellipse cx="16" cy="13.4" rx="5" ry="6.1" fill="#f1d3b3"/>
+    <!-- hairline, high and swept back -->
+    <path d="M11 11.6 C11.3 7.4 13.6 6 16 6 C18.4 6 20.7 7.4 21 11.6 C20.2 9.4 18.5 8.3 16 8.3 C13.5 8.3 11.8 9.4 11 11.6 Z" fill="#4a3426"/>
+    <!-- ears -->
+    <ellipse cx="10.9" cy="14" rx="0.9" ry="1.4" fill="#e9c4a2"/>
+    <ellipse cx="21.1" cy="14" rx="0.9" ry="1.4" fill="#e9c4a2"/>
+    <!-- nose -->
+    <path d="M16 13.6 Q16.7 15.1 15.7 15.4" stroke="#c99b7a" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+    <!-- eyes, cheeks, smile -->
+    <circle cx="14" cy="12.9" r="0.7" fill="#2a2520"/>
+    <circle cx="18" cy="12.9" r="0.7" fill="#2a2520"/>
+    <circle cx="12.9" cy="15.6" r="0.85" fill="#e8a99a" opacity=".7"/>
+    <circle cx="19.1" cy="15.6" r="0.85" fill="#e8a99a" opacity=".7"/>
+    <path d="M14.7 16.9 Q16 17.8 17.3 16.9" stroke="#2a2520" stroke-width="0.7" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>
