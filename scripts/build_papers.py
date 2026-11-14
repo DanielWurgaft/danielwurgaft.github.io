@@ -1,8 +1,9 @@
 """Rebuild the papers section of index.html from Semantic Scholar + arXiv.
 
-Selected papers = first-author papers + papers.yaml `include`, minus `exclude`.
-For each arXiv paper, figure 1 is pulled from the LaTeX source (first
-\\includegraphics inside a figure env) and saved as a thumbnail.
+Two lists, each spliced between <!-- name:start/end --> markers:
+  selected — exactly papers.yaml `selected`, with figure-1 thumbnails pulled from
+             the arXiv LaTeX source (first \\includegraphics inside a figure env)
+  all      — every paper on the Semantic Scholar profile, minus `exclude`
 
     uv run python scripts/build_papers.py
 """
@@ -34,7 +35,6 @@ VENUES = {
     "Empirical Methods in Natural Language Processing": "EMNLP",
     "Association for Computational Linguistics": "ACL",
 }
-START, END = "<!-- papers:start -->", "<!-- papers:end -->"
 
 
 # --- Semantic Scholar ----------------------------------------------------------
@@ -95,11 +95,12 @@ def short_venue(venue):
     return next((v for k, v in VENUES.items() if k in venue), venue)
 
 
-def select(papers, cfg):
-    return [
-        p for p in papers
-        if (ME in p["authors"][0] or p["id"] in cfg["include"]) and p["id"] not in cfg["exclude"]
-    ]
+def selected(papers, cfg):
+    return [p for p in papers if p["id"] in cfg["selected"]]
+
+
+def full_list(papers, cfg):
+    return [p for p in papers if p["id"] not in cfg["exclude"]]
 
 
 # --- figure 1 ------------------------------------------------------------------
@@ -191,10 +192,14 @@ def format_authors(names):
     return ", ".join(parts)
 
 
+def url_of(p):
+    return p.get("url") or (f"https://arxiv.org/abs/{p['arxiv']}" if p["arxiv"]
+                            else f"https://doi.org/{p['doi']}" if p["doi"]
+                            else f"https://www.semanticscholar.org/paper/{p['s2']}")
+
+
 def render(p, thumb):
-    url = p.get("url") or (f"https://arxiv.org/abs/{p['arxiv']}" if p["arxiv"]
-                           else f"https://doi.org/{p['doi']}" if p["doi"]
-                           else f"https://www.semanticscholar.org/paper/{p['s2']}")
+    url = url_of(p)
     links = [f'<a href="https://arxiv.org/pdf/{p["arxiv"]}">pdf</a>'] if p["arxiv"] else []
     links += [f'<a href="{html.escape(u)}">{html.escape(k)}</a>' for k, u in p.get("links", {}).items()]
     img = (f'<a class="thumb" href="{url}"><img src="{thumb}" alt="" loading="lazy"></a>'
@@ -210,14 +215,23 @@ def render(p, thumb):
 </li>"""
 
 
-def splice(page, inner):
-    return re.sub(f"{START}.*?{END}", lambda _: f"{START}\n{inner}\n{END}", page, flags=re.S)
+def render_line(p):
+    end = "" if p["title"][-1] in ".?!" else "."
+    return (f'<li><a href="{url_of(p)}">{html.escape(p["title"])}</a>{end} '
+            f'{format_authors(p["authors"])}. <i>{html.escape(p["venue"])} {p["year"] or ""}</i></li>')
+
+
+def splice(page, name, inner):
+    start, end = f"<!-- {name}:start -->", f"<!-- {name}:end -->"
+    return re.sub(f"{start}.*?{end}", lambda _: f"{start}\n{inner}\n{end}", page, flags=re.S)
 
 
 def build(cfg, page_path, img_dir):
-    items = []
-    for p in select(fetch_papers(cfg["author_id"]), cfg):
+    papers = fetch_papers(cfg["author_id"])
+    for p in papers:
         p.update(cfg["overrides"].get(p["id"], {}))
+    items = []
+    for p in selected(papers, cfg):
         fig = p.get("figure")
         if fig is None and p["arxiv"]:
             out = img_dir / f"{p['id']}.webp"
@@ -226,8 +240,10 @@ def build(cfg, page_path, img_dir):
                 extract_figure1(arxiv_source(p["arxiv"]), out)
             fig = os.path.relpath(out, page_path.parent)
         items.append(render(p, None if fig in (None, "none") else fig))
-    page_path.write_text(splice(page_path.read_text(), "\n".join(items)))
-    print(f"wrote {len(items)} papers to {page_path}")
+    rest = [render_line(p) for p in full_list(papers, cfg)]
+    page = splice(page_path.read_text(), "selected", "\n".join(items))
+    page_path.write_text(splice(page, "all", "\n".join(rest)))
+    print(f"wrote {len(items)} selected + {len(rest)} total papers to {page_path}")
 
 
 if __name__ == "__main__":

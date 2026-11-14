@@ -1,14 +1,18 @@
-# Papers shown on the site. Rebuild with:  uv run python scripts/build_papers.py
+# Papers on the site. Rebuild with:  uv run python scripts/build_papers.py
 # (also runs weekly via .github/workflows/papers.yml)
 #
-# Selected = every paper where I'm first author (picked up automatically)
-#          + `include`  − `exclude`.
+# selected: shown at the top with figure-1 thumbnails. Fixed: only what's listed here.
+# exclude:  hidden from the auto-updating "All papers" list (which is everything
+#           on the Semantic Scholar profile).
 # Papers are keyed by arXiv id (or Semantic Scholar paperId if not on arXiv).
 
 author_id: "2387864918"   # https://www.semanticscholar.org/author/2387864918
 
-include:
-  - "2511.00617"   # Belief Dynamics Reveal the Dual Nature of ICL and Activation Steering
+selected:
+  - "2605.05115"   # Manifold Steering
+  - "2511.00617"   # Belief Dynamics
+  - "2506.17859"   # In-Context Learning Strategies Emerge Rationally
+  - "2505.23931"   # Scaling up the think-aloud method
 
 exclude: []
 

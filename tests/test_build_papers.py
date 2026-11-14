@@ -81,21 +81,27 @@ def test_format_authors_bolds_me_and_elides_long_lists():
     assert bp.format_authors(["Daniel Wurgaft", "B"]) == "<b>Daniel Wurgaft</b>, B"
 
 
-def test_select_is_first_author_plus_include_minus_exclude():
-    papers = [
-        {"id": "1", "authors": ["Daniel Wurgaft", "X"]},
-        {"id": "2", "authors": ["X", "Daniel Wurgaft"]},
-        {"id": "3", "authors": ["Daniel Wurgaft"]},
-        {"id": "4", "authors": ["X", "Daniel Wurgaft"]},
-    ]
-    cfg = {"include": ["2"], "exclude": ["3"]}
-    assert [p["id"] for p in bp.select(papers, cfg)] == ["1", "2"]
+def test_selected_is_exactly_the_configured_list():
+    papers = [{"id": "1", "authors": ["Daniel Wurgaft"]}, {"id": "2", "authors": ["X"]}]
+    assert [p["id"] for p in bp.selected(papers, {"selected": ["2"]})] == ["2"]
+
+
+def test_full_list_is_everything_minus_exclude():
+    papers = [{"id": "1"}, {"id": "2"}, {"id": "3"}]
+    assert [p["id"] for p in bp.full_list(papers, {"exclude": ["2"]})] == ["1", "3"]
+
+
+def test_render_line_is_compact_without_thumbnail():
+    p = {"id": "1", "arxiv": "1", "doi": None, "s2": "x", "title": "T", "venue": "NeurIPS",
+         "year": 2025, "authors": ["Daniel Wurgaft", "B"]}
+    line = bp.render_line(p)
+    assert "<img" not in line and "<b>Daniel Wurgaft</b>" in line and "NeurIPS 2025" in line
 
 
 def test_render_replaces_only_between_markers():
-    page = "top\n<!-- papers:start -->\nold\n<!-- papers:end -->\nbottom"
-    out = bp.splice(page, "NEW")
-    assert out == "top\n<!-- papers:start -->\nNEW\n<!-- papers:end -->\nbottom"
+    page = "top\n<!-- all:start -->\nold\n<!-- all:end -->\nbottom"
+    out = bp.splice(page, "all", "NEW")
+    assert out == "top\n<!-- all:start -->\nNEW\n<!-- all:end -->\nbottom"
 
 
 # --- integration -----------------------------------------------------------------
@@ -104,10 +110,20 @@ def test_render_replaces_only_between_markers():
 def test_build_end_to_end(tmp_path):
     """Real Semantic Scholar + arXiv: builds the page with the ICL paper and its figure 1."""
     page = tmp_path / "index.html"
-    page.write_text("<ul>\n<!-- papers:start -->\n<!-- papers:end -->\n</ul>")
-    cfg = {"author_id": "2387864918", "include": [], "exclude": [], "overrides": {}}
+    page.write_text("<!-- selected:start -->\n<!-- selected:end -->\n<!-- all:start -->\n<!-- all:end -->")
+    cfg = {"author_id": "2387864918", "selected": ["2506.17859"], "exclude": [], "overrides": {}}
     bp.build(cfg, page, tmp_path / "img")
     html = page.read_text()
     assert "In-Context Learning Strategies Emerge Rationally" in html
     assert "NeurIPS" in html
     assert (tmp_path / "img" / "2506.17859.webp").exists()
+    assert len(list((tmp_path / "img").iterdir())) == 1  # thumbnails only for selected
+    full = html.split("<!-- all:start -->")[1]
+    assert "Scaling up the think-aloud method" in full and "<img" not in full
+
+
+def test_render_line_does_not_double_title_punctuation():
+    base = {"id": "1", "arxiv": None, "doi": None, "s2": "x", "venue": "v", "year": 1, "authors": ["A"]}
+    assert "Why?</a> A." in bp.render_line({**base, "title": "Why?"})
+    assert "Done.</a> A." in bp.render_line({**base, "title": "Done."})
+    assert "Plain</a>. A." in bp.render_line({**base, "title": "Plain"})

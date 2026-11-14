@@ -58,7 +58,6 @@ header { display: flex; gap: 1.5rem; align-items: center; margin-bottom: 2rem; }
 }
 
 /* papers */
-.note { color: var(--muted); font-size: .9rem; margin-top: -.4rem; }
 .papers { list-style: none; padding: 0; margin: 1.25rem 0 0; }
 .paper { display: grid; grid-template-columns: 160px 1fr; gap: 1.1rem; margin-bottom: 1.6rem; align-items: start; }
 .paper .thumb {
@@ -80,6 +79,20 @@ header { display: flex; gap: 1.5rem; align-items: center; margin-bottom: 2rem; }
   .paper { grid-template-columns: 1fr; gap: .6rem; }
   .paper .thumb { max-width: 280px; }
 }
+
+.all summary {
+  font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: 1.05rem;
+  cursor: pointer; list-style: none; color: var(--muted);
+}
+.all summary::-webkit-details-marker { display: none; }
+.all summary::before { content: "▸ "; display: inline-block; transition: transform .2s; }
+.all[open] summary::before { transform: rotate(90deg); }
+.all summary:hover { color: var(--accent); }
+.all-papers { padding: 0; list-style: none; font-size: .9rem; line-height: 1.5; }
+.all-papers li { margin-bottom: .6rem; color: var(--muted); }
+.all-papers a { color: var(--fg); text-decoration: none; }
+.all-papers a:hover { color: var(--accent); }
+.all-papers b { color: var(--fg); font-weight: 600; }
 
 /* game of 24 */
 .game {
