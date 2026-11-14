@@ -1,9 +1,12 @@
 """Rebuild the papers section of index.html from Semantic Scholar + arXiv.
 
 Two lists, each spliced between <!-- name:start/end --> markers:
-  selected — exactly papers.yaml `selected`, with figure-1 thumbnails pulled from
-             the arXiv LaTeX source (first \\includegraphics inside a figure env)
-  all      — every paper on the Semantic Scholar profile, minus `exclude`
+  selected — exactly papers.yaml `selected`, as cards with figure-1 thumbnails
+  all      — every paper on the Semantic Scholar profile, minus `exclude`,
+             one line each with a small figure-1 thumbnail
+
+Figure 1 is pulled from the arXiv LaTeX source (first \\includegraphics inside a
+figure env) and cached in img/papers/<id>.webp, so each paper is fetched once.
 
     uv run python scripts/build_papers.py
 """
@@ -217,10 +220,13 @@ def render(p, thumb):
 </li>"""
 
 
-def render_line(p):
+def render_line(p, thumb=None):
+    url = url_of(p)
     end = "" if p["title"][-1] in ".?!" else "."
-    return (f'<li><a href="{url_of(p)}">{html.escape(p["title"])}</a>{end} '
-            f'{format_authors(p["authors"], p.get("equal", ()))}. <i>{html.escape(p["venue"])} {p["year"] or ""}</i></li>')
+    mini = (f'<a class="mini" href="{url}" tabindex="-1" aria-hidden="true"><img src="{thumb}" alt="" loading="lazy"></a>'
+            if thumb else '<span class="mini"></span>')
+    return (f'<li>{mini}<span><a href="{url}">{html.escape(p["title"])}</a>{end} '
+            f'{format_authors(p["authors"], p.get("equal", ()))}. <i>{html.escape(p["venue"])} {p["year"] or ""}</i></span></li>')
 
 
 def splice(page, name, inner):
@@ -228,21 +234,29 @@ def splice(page, name, inner):
     return re.sub(f"{start}.*?{end}", lambda _: f"{start}\n{inner}\n{end}", page, flags=re.S)
 
 
+def thumbnail(p, img_dir, page_path):
+    """Relative path to the paper's figure-1 image, or None. A paper whose figure
+    can't be extracted gets no thumbnail rather than failing the whole build."""
+    fig = p.get("figure")
+    if fig is None and p["arxiv"]:
+        out = img_dir / f"{p['id']}.webp"
+        if not out.exists():
+            print(f"figure 1 ← arXiv {p['arxiv']}  {p['title'][:60]}")
+            try:
+                extract_figure1(arxiv_source(p["arxiv"]), out)
+            except Exception as e:
+                print(f"  ! no thumbnail: {e}")
+                return None
+        fig = os.path.relpath(out, page_path.parent)
+    return None if fig in (None, "none") else fig
+
+
 def build(cfg, page_path, img_dir):
     papers = fetch_papers(cfg["author_id"])
     for p in papers:
         p.update(cfg["overrides"].get(p["id"], {}))
-    items = []
-    for p in selected(papers, cfg):
-        fig = p.get("figure")
-        if fig is None and p["arxiv"]:
-            out = img_dir / f"{p['id']}.webp"
-            if not out.exists():
-                print(f"figure 1 ← arXiv {p['arxiv']}  {p['title'][:60]}")
-                extract_figure1(arxiv_source(p["arxiv"]), out)
-            fig = os.path.relpath(out, page_path.parent)
-        items.append(render(p, None if fig in (None, "none") else fig))
-    rest = [render_line(p) for p in full_list(papers, cfg)]
+    items = [render(p, thumbnail(p, img_dir, page_path)) for p in selected(papers, cfg)]
+    rest = [render_line(p, thumbnail(p, img_dir, page_path)) for p in full_list(papers, cfg)]
     page = splice(page_path.read_text(), "selected", "\n".join(items))
     page_path.write_text(splice(page, "all", "\n".join(rest)))
     print(f"wrote {len(items)} selected + {len(rest)} total papers to {page_path}")

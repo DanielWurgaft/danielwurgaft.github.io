@@ -5,12 +5,12 @@
 @font-face { font-family: "Site Avenir"; font-weight: 800; src: local("Avenir Heavy"), local("Avenir-Heavy"); }
 
 :root {
-  --bg: #f7f4ee;
+  --bg: #fbf9f5;
   --fg: #2a2520;
   --muted: #76706a;
   --accent: #5a3e2b;
-  --soft: #eee8de;
-  --rule: #e0d8cb;
+  --soft: #f2ede5;
+  --rule: #e6dfd4;
 }
 * { box-sizing: border-box; }
 
@@ -57,9 +57,9 @@ header { display: flex; gap: 1.5rem; align-items: center; margin-bottom: 2rem; }
 /* papers */
 .note { color: var(--muted); font-size: .85rem; margin: -.5rem 0 0; }
 .papers { list-style: none; padding: 0; margin: 1.25rem 0 0; }
-.paper { display: grid; grid-template-columns: 160px 1fr; gap: 1.1rem; margin-bottom: 1.6rem; align-items: start; }
+.paper { display: grid; grid-template-columns: 200px 1fr; gap: 1.1rem; margin-bottom: 1.6rem; align-items: start; }
 .paper .thumb {
-  display: block; aspect-ratio: 3 / 2; padding: 4px; border-radius: 8px; overflow: hidden;
+  display: block; aspect-ratio: 2 / 1; padding: 4px; border-radius: 8px; overflow: hidden;
   background: #fff; border: 1px solid var(--rule);
   transition: transform .3s cubic-bezier(.3, 1.6, .5, 1);
 }
@@ -121,3 +121,36 @@ header { display: flex; gap: 1.5rem; align-items: center; margin-bottom: 2rem; }
 }
 #verdict { min-height: 1.6em; margin-top: .4rem !important; color: var(--muted); }
 
+
+/* email: click to copy */
+.email-wrap { position: relative; display: inline-flex; }
+#email {
+  display: inline-flex; padding: 0; border: 0; background: none; cursor: pointer;
+  color: var(--accent); font: inherit; transition: color .15s, transform .15s;
+}
+#email:hover { color: var(--fg); transform: translateY(-2px); }
+#email-pop {
+  position: absolute; top: calc(100% + .5rem); left: 50%; transform: translate(-50%, -4px);
+  white-space: nowrap; font-size: .85rem; line-height: 1.3;
+  padding: .35rem .65rem; border-radius: 8px;
+  background: var(--fg); color: var(--bg);
+  opacity: 0; pointer-events: none; transition: opacity .15s, transform .15s; z-index: 2;
+}
+#email-pop.show { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+#email-pop .addr { user-select: all; font-weight: 500; }
+@media (max-width: 520px) {
+  #email-pop { left: 0; transform: translate(0, -4px); }
+  #email-pop.show { transform: translate(0, 0); }
+}
+
+/* small figure-1 thumbnails in the all-papers list */
+.all-papers li { display: flex; gap: .75rem; align-items: flex-start; }
+.all-papers .mini {
+  flex: none; width: 96px; aspect-ratio: 2.2 / 1; margin-top: .2rem;
+  padding: 2px; border-radius: 5px; overflow: hidden;
+  background: #fff; border: 1px solid var(--rule);
+  transition: transform .2s;
+}
+.all-papers span.mini { visibility: hidden; }  /* no figure: keep the text aligned, show nothing */
+.all-papers .mini img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.all-papers li:hover a.mini { transform: scale(1.06); }

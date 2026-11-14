@@ -103,6 +103,18 @@ def test_render_line_is_compact_without_thumbnail():
     assert "<img" not in line and "<b>Daniel Wurgaft</b>" in line and "NeurIPS 2025" in line
 
 
+def test_render_line_with_thumbnail():
+    p = {"id": "1", "arxiv": "1", "doi": None, "s2": "x", "title": "T", "venue": "v",
+         "year": 2025, "authors": ["A"]}
+    assert '<img src="img/papers/1.webp"' in bp.render_line(p, "img/papers/1.webp")
+
+
+def test_thumbnail_failure_is_not_fatal(tmp_path, monkeypatch):
+    monkeypatch.setattr(bp, "arxiv_source", lambda _: b"not a tarball")
+    p = {"id": "9", "arxiv": "9", "title": "Broken"}
+    assert bp.thumbnail(p, tmp_path / "img", tmp_path / "index.html") is None
+
+
 def test_render_replaces_only_between_markers():
     page = "top\n<!-- all:start -->\nold\n<!-- all:end -->\nbottom"
     out = bp.splice(page, "all", "NEW")
@@ -122,9 +134,9 @@ def test_build_end_to_end(tmp_path):
     assert "In-Context Learning Strategies Emerge Rationally" in html
     assert "NeurIPS" in html
     assert (tmp_path / "img" / "2506.17859.webp").exists()
-    assert len(list((tmp_path / "img").iterdir())) == 1  # thumbnails only for selected
+    assert (tmp_path / "img" / "2505.23931.webp").exists()  # all-papers list gets thumbnails too
     full = html.split("<!-- all:start -->")[1]
-    assert "Scaling up the think-aloud method" in full and "<img" not in full
+    assert "Scaling up the think-aloud method" in full and 'class="mini"' in full
 
 
 def test_render_line_does_not_double_title_punctuation():

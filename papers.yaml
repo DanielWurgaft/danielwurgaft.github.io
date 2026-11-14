@@ -42,3 +42,5 @@ overrides:
     title: "Arithmetic in the Wild: Llama uses Standard Addition to Reason About Cyclic Concepts"
     venue: COLM
     year: 2026
+  "a4a7f90bf263c6006be24aa702c312012e734b73":   # Alexithymia (not on arXiv): figure supplied by hand
+    figure: img/papers/alexithymia.webp
