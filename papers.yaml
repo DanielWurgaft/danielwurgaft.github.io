@@ -15,6 +15,7 @@ selected:
   - "2505.23931"   # Scaling up the think-aloud method
 
 exclude:
+  - "c28d141699e32b99ef7bd76c221f38f9baec3081"   # Reliability Scales Inversely
   - "7106400db820d82770923f5524b6ab0255741cd3"   # Biological Psychiatry conference abstract (639. Distinct Neural Correlates…)
 
 # Per-paper tweaks. Any field can be overridden: title, venue, year, url.

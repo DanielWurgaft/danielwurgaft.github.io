@@ -1,29 +1,18 @@
 :root {
-  --bg: #fffdf8;
-  --fg: #1d1b18;
-  --muted: #6f6a62;
-  --accent: #d6336c;
-  --soft: #f6efe3;
-  --rule: #e7dfd1;
+  --bg: #f7f4ee;
+  --fg: #2a2520;
+  --muted: #76706a;
+  --accent: #5a3e2b;
+  --soft: #eee8de;
+  --rule: #e0d8cb;
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #17161a;
-    --fg: #ece8e1;
-    --muted: #9c968c;
-    --accent: #ff7aa8;
-    --soft: #222027;
-    --rule: #33303a;
-  }
-}
-
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
   background: var(--bg);
   color: var(--fg);
-  font: 18px/1.6 "Source Serif 4", Georgia, serif;
+  font: 300 18px/1.65 "Avenir Next", Avenir, "Nunito Sans", sans-serif;
 }
 
 main {
@@ -32,11 +21,12 @@ main {
   padding: 4rem 1rem 3rem;
 }
 
-h1, h2 { font-family: "Fraunces", Georgia, serif; font-weight: 600; line-height: 1.15; }
+h1, h2 { font-weight: 500; line-height: 1.15; }
+b, strong { font-weight: 500; }
 h1 { font-size: 2.2rem; margin: 0; }
 h2 { font-size: 1.25rem; margin: 2.5rem 0 0.75rem; }
 
-a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a { color: var(--accent); text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
 a:hover { text-decoration: none; }
 
 /* header */
@@ -46,9 +36,7 @@ header { display: flex; gap: 1.5rem; align-items: center; margin-bottom: 2rem; }
   object-fit: cover;
   border-radius: 50%;
   background: var(--soft);
-  transition: transform .35s cubic-bezier(.3, 1.6, .5, 1), border-radius .35s;
 }
-.me:hover { transform: rotate(-8deg) scale(1.05); border-radius: 30%; }
 .tagline { margin: .2rem 0 .5rem; color: var(--muted); }
 .links { margin: 0; display: flex; flex-wrap: wrap; gap: .15rem .9rem; font-size: .95rem; }
 
@@ -67,11 +55,11 @@ header { display: flex; gap: 1.5rem; align-items: center; margin-bottom: 2rem; }
 }
 .paper .thumb img { width: 100%; height: 100%; object-fit: contain; display: block; }
 .paper:hover .thumb { transform: rotate(-2deg) scale(1.03); }
-.paper .title { font-weight: 600; color: var(--fg); text-decoration: none; line-height: 1.35; display: block; }
+.paper .title { font-weight: 500; color: var(--fg); text-decoration: none; line-height: 1.35; display: block; }
 .paper .title:hover { color: var(--accent); }
 .paper span { display: block; font-size: .9rem; line-height: 1.45; margin-top: .2rem; }
 .paper .authors { color: var(--muted); }
-.paper .authors b { color: var(--fg); font-weight: 600; }
+.paper .authors b { color: var(--fg); font-weight: 500; }
 .paper .venue { font-style: italic; }
 .paper .extras { font-size: .85rem; }
 
@@ -81,7 +69,7 @@ header { display: flex; gap: 1.5rem; align-items: center; margin-bottom: 2rem; }
 }
 
 .all summary {
-  font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: 1.05rem;
+  font-weight: 500; font-size: 1.05rem;
   cursor: pointer; list-style: none; color: var(--muted);
 }
 .all summary::-webkit-details-marker { display: none; }
@@ -92,7 +80,7 @@ header { display: flex; gap: 1.5rem; align-items: center; margin-bottom: 2rem; }
 .all-papers li { margin-bottom: .6rem; color: var(--muted); }
 .all-papers a { color: var(--fg); text-decoration: none; }
 .all-papers a:hover { color: var(--accent); }
-.all-papers b { color: var(--fg); font-weight: 600; }
+.all-papers b { color: var(--fg); font-weight: 500; }
 
 /* game of 24 */
 .game {
@@ -103,7 +91,7 @@ header { display: flex; gap: 1.5rem; align-items: center; margin-bottom: 2rem; }
   font-size: .95rem;
 }
 .game p { margin: 0; }
-#nums { font-family: ui-monospace, monospace; letter-spacing: .1em; font-weight: 600; }
+#nums { font-family: ui-monospace, monospace; letter-spacing: .1em; font-weight: 500; }
 #reroll {
   border: 0; background: none; color: var(--muted); cursor: pointer;
   font-size: 1.1rem; transition: transform .3s;
