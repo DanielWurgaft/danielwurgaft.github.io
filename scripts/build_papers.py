@@ -98,6 +98,11 @@ def short_venue(venue):
     return next((v for k, v in VENUES.items() if k in venue), venue)
 
 
+def full_names(authors, names):
+    """Replace initialled names (e.g. "E. Lubana") with the full names in papers.yaml `names`."""
+    return [names.get(a, a) for a in authors]
+
+
 def selected(papers, cfg):
     by_id = {p["id"]: p for p in papers}
     return [by_id[i] for i in cfg["selected"]]
@@ -254,6 +259,7 @@ def thumbnail(p, img_dir, page_path):
 def build(cfg, page_path, img_dir):
     papers = fetch_papers(cfg["author_id"])
     for p in papers:
+        p["authors"] = full_names(p["authors"], cfg.get("names", {}))
         p.update(cfg["overrides"].get(p["id"], {}))
     items = [render(p, thumbnail(p, img_dir, page_path)) for p in selected(papers, cfg)]
     rest = [render_line(p, thumbnail(p, img_dir, page_path)) for p in full_list(papers, cfg)]

@@ -18,6 +18,16 @@ exclude:
   - "c28d141699e32b99ef7bd76c221f38f9baec3081"   # Reliability Scales Inversely
   - "7106400db820d82770923f5524b6ab0255741cd3"   # Biological Psychiatry conference abstract (639. Distinct Neural Correlates…)
 
+# Full names for co-authors that Semantic Scholar lists with initials.
+# Applied to every paper, including ones added later.
+names:
+  "E. Lubana": "Ekdeep Singh Lubana"
+  "J. B. Tenenbaum": "Joshua B. Tenenbaum"
+  "G. Reddy": "Gautam Reddy"
+  "C. Park": "Core Francisco Park"
+  "M. Kowal": "Matthew Kowal"
+  "C. Rager": "Can Rager"
+
 # Per-paper tweaks. Any field can be overridden: title, venue, year, url.
 #   links:  extra links shown after "pdf", e.g. {code: https://github.com/...}
 #   figure: a path to your own image (e.g. img/papers/custom.png), or "none"

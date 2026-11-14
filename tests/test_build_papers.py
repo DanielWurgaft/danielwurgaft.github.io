@@ -91,6 +91,12 @@ def test_format_authors_marks_equal_contribution():
     assert bp.format_authors(names, equal=[0, 1]) == "A*, <b>Daniel Wurgaft*</b>, C"
 
 
+def test_full_names_expands_only_listed_names():
+    names = {"E. Lubana": "Ekdeep Singh Lubana"}
+    assert bp.full_names(["E. Lubana", "Daniel Wurgaft", "C. Park"], names) == \
+        ["Ekdeep Singh Lubana", "Daniel Wurgaft", "C. Park"]
+
+
 def test_full_list_is_everything_minus_exclude():
     papers = [{"id": "1"}, {"id": "2"}, {"id": "3"}]
     assert [p["id"] for p in bp.full_list(papers, {"exclude": ["2"]})] == ["1", "3"]
