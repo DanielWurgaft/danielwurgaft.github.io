@@ -12,7 +12,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--fg);
-  font: 400 18px/1.65 "Avenir Next", Avenir, "Nunito Sans", sans-serif;
+  font: 400 18px/1.65 Avenir, "Avenir Next", "Nunito Sans", sans-serif;
 }
 
 main {
