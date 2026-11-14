@@ -1,0 +1,21 @@
+[project]
+name = "site-papers"
+version = "0.1.0"
+description = "Builds the papers section of danielwurgaft.github.io from Semantic Scholar + arXiv"
+requires-python = ">=3.11"
+dependencies = [
+    "requests",
+    "pyyaml",
+    "pillow",
+    "pymupdf",
+]
+
+[dependency-groups]
+dev = ["pytest"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+pythonpath = ["scripts"]
+markers = ["network: hits Semantic Scholar / arXiv"]

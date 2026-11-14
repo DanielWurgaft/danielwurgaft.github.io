@@ -1,0 +1,26 @@
+# Papers shown on the site. Rebuild with:  uv run python scripts/build_papers.py
+# (also runs weekly via .github/workflows/papers.yml)
+#
+# Selected = every paper where I'm first author (picked up automatically)
+#          + `include`  − `exclude`.
+# Papers are keyed by arXiv id (or Semantic Scholar paperId if not on arXiv).
+
+author_id: "2387864918"   # https://www.semanticscholar.org/author/2387864918
+
+include:
+  - "2602.02315"   # The Shape of Beliefs
+  - "2511.00617"   # Belief Dynamics Reveal the Dual Nature of ICL and Activation Steering
+  - "2605.12412"   # Stories in Space
+  - "2606.26460"   # auto-psych
+  - "2605.29548"   # Why Larger Models Learn More
+
+exclude: []
+
+# Per-paper tweaks. Any field can be overridden: title, venue, year, url.
+#   links:  extra links shown after "pdf", e.g. {code: https://github.com/...}
+#   figure: a path to your own image (e.g. img/papers/custom.png), or "none"
+overrides:
+  "2506.17859":
+    links: {code: "https://github.com/DanielWurgaft/normative-icl"}   # TODO: check this is the public repo
+  "2505.23931":
+    links: {code: "https://github.com/DanielWurgaft/llm-verbal-protocol"}   # TODO: check this is the public repo
