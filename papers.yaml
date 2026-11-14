@@ -8,10 +8,10 @@
 
 author_id: "2387864918"   # https://www.semanticscholar.org/author/2387864918
 
-selected:
-  - "2605.05115"   # Manifold Steering
-  - "2511.00617"   # Belief Dynamics
+selected:   # shown in this order
   - "2506.17859"   # In-Context Learning Strategies Emerge Rationally
+  - "2511.00617"   # Belief Dynamics
+  - "2605.05115"   # Manifold Steering
   - "2505.23931"   # Scaling up the think-aloud method
 
 exclude:
@@ -21,10 +21,20 @@ exclude:
 # Per-paper tweaks. Any field can be overridden: title, venue, year, url.
 #   links:  extra links shown after "pdf", e.g. {code: https://github.com/...}
 #   figure: a path to your own image (e.g. img/papers/custom.png), or "none"
+#   equal:  positions (0 = first) of co-first authors, marked with * (from Google Scholar)
 overrides:
   "2506.17859":   # code is linked from the NeurIPS version, not arXiv
+    equal: [0, 1]
     links: {code: "https://github.com/DanielWurgaft/rational-icl"}
-  "2505.23931":
-    links: {code: "https://github.com/benpry/think-aloud-llms", data: "https://osf.io/3emh9/"}
+  "2511.00617":
+    equal: [0, 1]
+    venue: ICML
+    year: 2026
   "2605.05115":
+    equal: [0, 1, 2]
+    venue: COLM
+    year: 2026
     links: {code: "https://github.com/goodfire-ai/causalab/tree/manifold_steering"}
+  "2505.23931":
+    equal: [0, 1]
+    links: {code: "https://github.com/benpry/think-aloud-llms", data: "https://osf.io/3emh9/"}

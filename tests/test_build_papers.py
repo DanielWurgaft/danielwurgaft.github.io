@@ -81,9 +81,14 @@ def test_format_authors_bolds_me_and_elides_long_lists():
     assert bp.format_authors(["Daniel Wurgaft", "B"]) == "<b>Daniel Wurgaft</b>, B"
 
 
-def test_selected_is_exactly_the_configured_list():
-    papers = [{"id": "1", "authors": ["Daniel Wurgaft"]}, {"id": "2", "authors": ["X"]}]
-    assert [p["id"] for p in bp.selected(papers, {"selected": ["2"]})] == ["2"]
+def test_selected_is_exactly_the_configured_list_in_configured_order():
+    papers = [{"id": "1"}, {"id": "2"}, {"id": "3"}]
+    assert [p["id"] for p in bp.selected(papers, {"selected": ["3", "1"]})] == ["3", "1"]
+
+
+def test_format_authors_marks_equal_contribution():
+    names = ["A", "Daniel Wurgaft", "C"]
+    assert bp.format_authors(names, equal=[0, 1]) == "A*, <b>Daniel Wurgaft*</b>, C"
 
 
 def test_full_list_is_everything_minus_exclude():

@@ -1,3 +1,9 @@
+/* Avenir by name: Book and Roman share weight 400, so pick Roman explicitly. */
+@font-face { font-family: "Site Avenir"; font-weight: 400; src: local("Avenir Roman"), local("Avenir-Roman"); }
+@font-face { font-family: "Site Avenir"; font-weight: 400; font-style: italic; src: local("Avenir Oblique"), local("Avenir-Oblique"); }
+@font-face { font-family: "Site Avenir"; font-weight: 500; src: local("Avenir Medium"), local("Avenir-Medium"); }
+@font-face { font-family: "Site Avenir"; font-weight: 800; src: local("Avenir Heavy"), local("Avenir-Heavy"); }
+
 :root {
   --bg: #f7f4ee;
   --fg: #2a2520;
@@ -12,7 +18,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--fg);
-  font: 400 18px/1.65 Avenir, "Avenir Next", "Nunito Sans", sans-serif;
+  font: 400 18px/1.65 "Site Avenir", "Nunito Sans", sans-serif;
 }
 
 main {
@@ -49,6 +55,7 @@ header { display: flex; gap: 1.5rem; align-items: center; margin-bottom: 2rem; }
 }
 
 /* papers */
+.note { color: var(--muted); font-size: .85rem; margin: -.5rem 0 0; }
 .papers { list-style: none; padding: 0; margin: 1.25rem 0 0; }
 .paper { display: grid; grid-template-columns: 160px 1fr; gap: 1.1rem; margin-bottom: 1.6rem; align-items: start; }
 .paper .thumb {

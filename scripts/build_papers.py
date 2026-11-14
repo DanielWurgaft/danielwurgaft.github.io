@@ -96,7 +96,8 @@ def short_venue(venue):
 
 
 def selected(papers, cfg):
-    return [p for p in papers if p["id"] in cfg["selected"]]
+    by_id = {p["id"]: p for p in papers}
+    return [by_id[i] for i in cfg["selected"]]
 
 
 def full_list(papers, cfg):
@@ -178,7 +179,7 @@ def arxiv_source(arxiv_id):
 
 # --- rendering -----------------------------------------------------------------
 
-def format_authors(names):
+def format_authors(names, equal=()):
     me = next((i for i, n in enumerate(names) if ME in n), None)
     shown = sorted({i for i in [0, 1, 2, me, len(names) - 1] if i is not None and i < len(names)})
     if len(names) <= 6:
@@ -187,7 +188,8 @@ def format_authors(names):
     for i in shown:
         if i > prev + 1:
             parts.append("…")
-        parts.append(f"<b>{html.escape(names[i])}</b>" if i == me else html.escape(names[i]))
+        name = html.escape(names[i]) + ("*" if i in equal else "")
+        parts.append(f"<b>{name}</b>" if i == me else name)
         prev = i
     return ", ".join(parts)
 
@@ -208,7 +210,7 @@ def render(p, thumb):
   {img}
   <div>
     <a class="title" href="{url}">{html.escape(p["title"])}</a>
-    <span class="authors">{format_authors(p["authors"])}</span>
+    <span class="authors">{format_authors(p["authors"], p.get("equal", ()))}</span>
     <span class="venue">{html.escape(p["venue"])} {p["year"] or ""}</span>
     <span class="extras">{" · ".join(links)}</span>
   </div>
@@ -218,7 +220,7 @@ def render(p, thumb):
 def render_line(p):
     end = "" if p["title"][-1] in ".?!" else "."
     return (f'<li><a href="{url_of(p)}">{html.escape(p["title"])}</a>{end} '
-            f'{format_authors(p["authors"])}. <i>{html.escape(p["venue"])} {p["year"] or ""}</i></li>')
+            f'{format_authors(p["authors"], p.get("equal", ()))}. <i>{html.escape(p["venue"])} {p["year"] or ""}</i></li>')
 
 
 def splice(page, name, inner):
