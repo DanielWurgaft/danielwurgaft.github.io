@@ -21,7 +21,9 @@ exclude:
 #   links:  extra links shown after "pdf", e.g. {code: https://github.com/...}
 #   figure: a path to your own image (e.g. img/papers/custom.png), or "none"
 overrides:
-  "2506.17859":
-    links: {code: "https://github.com/DanielWurgaft/normative-icl"}   # TODO: check this is the public repo
+  "2506.17859":   # code is linked from the NeurIPS version, not arXiv
+    links: {code: "https://github.com/DanielWurgaft/rational-icl"}
   "2505.23931":
-    links: {code: "https://github.com/DanielWurgaft/llm-verbal-protocol"}   # TODO: check this is the public repo
+    links: {code: "https://github.com/benpry/think-aloud-llms", data: "https://osf.io/3emh9/"}
+  "2605.05115":
+    links: {code: "https://github.com/goodfire-ai/causalab/tree/manifold_steering"}
