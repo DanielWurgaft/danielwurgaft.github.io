@@ -8,11 +8,7 @@
 author_id: "2387864918"   # https://www.semanticscholar.org/author/2387864918
 
 include:
-  - "2602.02315"   # The Shape of Beliefs
   - "2511.00617"   # Belief Dynamics Reveal the Dual Nature of ICL and Activation Steering
-  - "2605.12412"   # Stories in Space
-  - "2606.26460"   # auto-psych
-  - "2605.29548"   # Why Larger Models Learn More
 
 exclude: []
 
